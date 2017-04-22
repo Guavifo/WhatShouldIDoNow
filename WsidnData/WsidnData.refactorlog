@@ -56,4 +56,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TaskDescription" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="d0bffe92-49d0-463f-8d17-91527a606f05" ChangeDateTime="04/22/2017 21:30:41">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[Timesviewed]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TimesViewed" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9914b910-1a48-4ead-b2b6-9fea0cf7eb57" ChangeDateTime="04/22/2017 21:39:55">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[TaskDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cd911823-8143-4487-a7a0-803fdd0220e6" ChangeDateTime="04/22/2017 21:48:07">
+    <Property Name="ElementName" Value="[dbo].[TasksCompleted].[TaskDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksCompleted]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
 </Operations>

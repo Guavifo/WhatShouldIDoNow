@@ -27,6 +27,13 @@ namespace WhatShouldIDoNow.Controllers
             return View();
         }
 
+        public ViewResult Test()
+        {
+            return View();
+        }
+
+
+
         public IActionResult Error()
         {
             return View();
