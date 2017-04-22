@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="60515016-60d2-42f1-b140-f712909d0636" ChangeDateTime="04/22/2017 16:52:43">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[DateAdded]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateCreated" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef5fa68e-55ea-4139-abbd-aacf4a704534" ChangeDateTime="04/22/2017 17:02:25">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[Deadline]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateDue" />
+  </Operation>
+</Operations>
