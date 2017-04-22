@@ -42,4 +42,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DateCompleted" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="43e68f45-4782-4c4b-8bbc-e7929ca8253a" ChangeDateTime="04/22/2017 18:30:59">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[GoalDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cf230454-4bde-4436-b1a2-44ba56709493" ChangeDateTime="04/22/2017 18:31:06">
+    <Property Name="ElementName" Value="[dbo].[TasksCompleted].[GoalDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksCompleted]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskDescription" />
+  </Operation>
 </Operations>
