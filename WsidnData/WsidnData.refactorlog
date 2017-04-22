@@ -14,4 +14,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DateDue" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="a85ce402-28e7-4e60-a5d9-30855ce0347f" ChangeDateTime="04/22/2017 17:56:33">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[Frequency]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RepeatedInterval" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="52ffba30-d069-4048-8a43-788bdb8cab46" ChangeDateTime="04/22/2017 18:01:22">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[RepeatedInterval]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IntervalByHour" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="09ee34bf-4f27-42fa-bc99-cdf7a2e174e7" ChangeDateTime="04/22/2017 18:05:10">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[LastViewed]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateStart" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ef620e80-9f2f-482a-b5af-6f82c4733224" ChangeDateTime="04/22/2017 18:16:59">
+    <Property Name="ElementName" Value="[dbo].[TasksCompleted].[DateDue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksCompleted]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateCompleted" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="43e68f45-4782-4c4b-8bbc-e7929ca8253a" ChangeDateTime="04/22/2017 18:30:59">
+    <Property Name="ElementName" Value="[dbo].[TasksToDo].[GoalDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksToDo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cf230454-4bde-4436-b1a2-44ba56709493" ChangeDateTime="04/22/2017 18:31:06">
+    <Property Name="ElementName" Value="[dbo].[TasksCompleted].[GoalDescription]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TasksCompleted]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskDescription" />
+  </Operation>
 </Operations>

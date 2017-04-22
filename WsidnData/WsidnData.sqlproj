@@ -58,4 +58,15 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="TasksToDo.sql" />
+    <Build Include="Categories.sql" />
+    <Build Include="TasksCompleted.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="WsidnData.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
 </Project>
