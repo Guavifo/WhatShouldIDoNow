@@ -5,7 +5,8 @@
     [GoalDescription] NCHAR(200) NOT NULL, 
     [Category] INT NULL FOREIGN KEY (Category) REFERENCES Categories(Id), 
     [DateDue] DATETIME NULL, 
-    [LastViewed] DATETIME NOT NULL DEFAULT GETDATE(), 
+	[LastViewed] DATETIME NOT NULL DEFAULT GETDATE(), 
+    [DateStart] DATETIME NOT NULL DEFAULT GETDATE(), 
 	[Timesviewed] NCHAR(10) NULL,
-    [Frequency] INT NOT NULL DEFAULT 1
+    [IntervalByHour] INT NOT NULL DEFAULT 0
 )
