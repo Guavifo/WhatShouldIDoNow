@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using WhatShouldIDoNow.DataAccess.Models;
 
 namespace WhatShouldIDoNow.DataAccess
@@ -24,6 +25,18 @@ namespace WhatShouldIDoNow.DataAccess
 
                 var id = conn.ExecuteScalar<int>(sql, task);
                 return id;
+            }
+        }
+
+        public TaskToDo GetRandomTask()
+        {
+            string sql;
+            sql = "SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],[DateStart],[TimesViewed],[IntervalByHour] FROM [WsidnData].[dbo].[TasksToDo] Order by NEWID()";
+            using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
+            {
+                var task = conn.QuerySingle<TaskToDo>(sql);
+                return task;
+
             }
         }
     }
