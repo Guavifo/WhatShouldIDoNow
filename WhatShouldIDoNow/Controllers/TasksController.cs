@@ -36,6 +36,14 @@ namespace WhatShouldIDoNow.Controllers
 
             return View(model);
         }
+
+        public IActionResult RandomTask()
+        {
+            var task = _taskCommands.GetRandomTask();
+            return View(task);
+
+        }
+
         
     }
 }
