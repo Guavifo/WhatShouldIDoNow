@@ -1,0 +1,24 @@
+@model WhatShouldIDoNow.DataAccess.Models.TaskToDo
+
+@{
+    ViewData["Title"] = "RandomTask";
+}
+
+<h2>RandomTask</h2>
+@if (Model == null)
+{
+    <p>Today is a happy day!<br>Everything is Complete</p>
+}
+else
+{
+    <p>@Model.Description</p>
+    <br>
+    <br>
+    <form asp-controller="Tasks" asp-action="Complete" method="post">
+        <button type="submit">
+            This is now complete
+        </button>
+        <input type="hidden" asp-for="Id"/>
+    </form>
+
+}

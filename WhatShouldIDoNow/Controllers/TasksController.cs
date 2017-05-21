@@ -8,6 +8,7 @@ namespace WhatShouldIDoNow.Controllers
     public class TasksController : Controller
     {
         private readonly ITaskCommands _taskCommands;
+        private const string _homeRedirectUrl = "~/Home/Index";
 
         public TasksController(ITaskCommands taskCommands)
         {
@@ -34,16 +35,41 @@ namespace WhatShouldIDoNow.Controllers
                     IntervalByHour = model.IntervalByHour
                 });
 
-            return View(model);
+            return new LocalRedirectResult(_homeRedirectUrl);
         }
 
-        public IActionResult RandomTask()
+        public IActionResult Random()
         {
             var task = _taskCommands.GetRandomTask();
             return View(task);
-
         }
 
+        [HttpPost]
+        public IActionResult Complete(int id)
+        {
+            var taskToComplete = _taskCommands.GetTask(id);
+            if (taskToComplete == null)
+            {
+                return new NotFoundResult();
+            }
+
+            var completedTask = new AddCompletedTask
+            {
+                Description = taskToComplete.Description,
+                DateCreated = taskToComplete.DateCreated,
+                Category = taskToComplete.Category
+            };
+
+            _taskCommands.AddCompletedTask(completedTask);
+            _taskCommands.DeleteTaskTodo(id);
+
+            return new LocalRedirectResult(_homeRedirectUrl);
+        }
         
+        public IActionResult CompletedList()
+        {
+            var model = _taskCommands.GetCompletedTasks();
+            return View(model);
+        }
     }
 }

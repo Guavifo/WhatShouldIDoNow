@@ -1,0 +1,16 @@
+@model System.Collections.Generic.List<WhatShouldIDoNow.DataAccess.Models.CompletedTask>
+
+@{
+    ViewData["Title"] = "Completed List";
+}
+
+<h2>Completed List</h2>
+
+    <table align="left" style="padding: 20px">
+        <tr><th>Description</th><th>Category</th><th>Created Date</th><th>Completed Date</th></tr>
+    @foreach(var task in Model)
+    {
+        var category = task.Category==null ? "Not categorized" : task.Category.ToString();
+        <tr><td>@task.Description</td><td>@category</td><td>@task.DateCreated</td><td>@task.DateCompleted</td></tr>
+    }
+    </table>

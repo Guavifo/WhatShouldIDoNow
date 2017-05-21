@@ -1,4 +1,5 @@
-﻿using WhatShouldIDoNow.DataAccess.Models;
+﻿using System.Collections.Generic;
+using WhatShouldIDoNow.DataAccess.Models;
 
 namespace WhatShouldIDoNow.DataAccess
 {
@@ -6,5 +7,9 @@ namespace WhatShouldIDoNow.DataAccess
     {
         int CreateTask(CreateTask task);
         TaskToDo GetRandomTask();
+        TaskToDo GetTask(int id);
+        void AddCompletedTask(AddCompletedTask task);
+        void DeleteTaskTodo(int id);
+        List<CompletedTask> GetCompletedTasks();
     }
 }

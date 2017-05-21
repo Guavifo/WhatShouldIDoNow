@@ -28,6 +28,11 @@ textarea {
     width: 100%;
 }
 
+table {
+    border-spacing: 24px 0;
+    border-collapse:unset;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

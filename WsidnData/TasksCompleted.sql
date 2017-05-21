@@ -4,5 +4,5 @@
     [DateCreated] DATETIME NOT NULL , 
     [Description] NVARCHAR(200) NOT NULL, 
     [Category] INT NULL FOREIGN KEY (Category) REFERENCES Categories(Id), 
-    [DateCompleted] DATETIME NOT NULL, 
+    [DateCompleted] DATETIME NOT NULL DEFAULT GETDATE(), 
 )
