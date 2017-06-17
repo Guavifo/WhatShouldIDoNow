@@ -27,8 +27,14 @@ namespace WhatShouldIDoNow.Controllers
             {
                 return View(model);
             }
+                      
+            //Check if the user has clicked the custom interval button
+            if (model.ButtonInterval > -1)
+            {
+                model.IntervalByHour = model.ButtonInterval;
+            }
 
-            var taskId =_taskCommands.CreateTask(
+            var taskId = _taskCommands.CreateTask(
                 new CreateTask
                 {
                     Description = model.Description,
