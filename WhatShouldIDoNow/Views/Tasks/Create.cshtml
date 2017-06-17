@@ -19,10 +19,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="IntervalByHour" class="col-md-2 control-label"></label>
+            <label class="col-md-2">Does your task repeat?</label>
             <div class="col-md-10">
-                <input asp-for="IntervalByHour" class="form-control" />
-                <span asp-validation-for="IntervalByHour" class="text-danger"></span>
+                <div><label><input class="intervalRadios" type="radio" name="interval" value="0" checked /> Don't Repeat</label></div>
+                <div><label><input class="intervalRadios" type="radio" name="interval" value="24" /> Daily</label></div>
+                <div><label><input class="intervalRadios" type="radio" name="interval" value="168" /> Weekly</label></div>
+                <div><label><input class="intervalRadios" type="radio" name="interval" value="672" /> 4 Weeks</label></div>
+                <div>
+                    <label id="customIntervalLabel">
+                        <input class="intervalRadios" type="radio" name="interval" value="-1" id="customInterval" /> Custom
+                    </label>
+                    <span>
+                        <input asp-for="IntervalByHour" disabled /> (hours)
+                        <span asp-validation-for="IntervalByHour" class="text-danger"></span>
+                    </span>
+                </div>                
             </div>
         </div>
         <div class="form-group">
@@ -37,3 +48,25 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script>
+    
+    var customRadio = document.getElementById('customInterval');
+    var customTextInput = document.getElementById('IntervalByHour');
+    var intervalRadios = document.getElementsByClassName('intervalRadios');
+
+    var clickHandler = function clickHandler(event) {
+        if (customRadio.checked) {
+            customTextInput.disabled = false;
+        } else {
+            customTextInput.disabled = true;
+        }
+    };
+
+    for (i = 0; i < intervalRadios.length; i++) {
+        intervalRadios[i].onclick = function (event) {
+            clickHandler();
+        };
+    }
+    
+
+</script>
