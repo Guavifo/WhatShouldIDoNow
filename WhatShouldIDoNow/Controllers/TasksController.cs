@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WhatShouldIDoNow.DataAccess;
 using WhatShouldIDoNow.DataAccess.Models;
 using WhatShouldIDoNow.Models;
@@ -46,7 +47,7 @@ namespace WhatShouldIDoNow.Controllers
 
         public IActionResult Random()
         {
-            var task = _taskCommands.GetRandomTask();
+            var task = _taskCommands.GetRandomTaskWithDateStart();
             return View(task);
         }
 
@@ -54,11 +55,13 @@ namespace WhatShouldIDoNow.Controllers
         public IActionResult Complete(int id)
         {
             var taskToComplete = _taskCommands.GetTask(id);
+
             if (taskToComplete == null)
             {
                 return new NotFoundResult();
             }
 
+            //Save the completed task to the completed tasks table
             var completedTask = new AddCompletedTask
             {
                 Description = taskToComplete.Description,
@@ -67,7 +70,21 @@ namespace WhatShouldIDoNow.Controllers
             };
 
             _taskCommands.AddCompletedTask(completedTask);
-            _taskCommands.DeleteTaskTodo(id);
+
+            //Check if the task is repeating, if not, delete it
+            if (taskToComplete.IntervalByHour == 0)
+            {
+                _taskCommands.DeleteTaskTodo(id);
+            }
+            //if the task IS repeating, update the DateStart field to the future (vs. right now)
+            else
+            {
+                _taskCommands
+                    .UpdateTaskDateStart(
+                        id, 
+                        DateTime.Now.AddHours(taskToComplete.IntervalByHour)
+                    );
+            }
 
             return new LocalRedirectResult(_homeRedirectUrl);
         }

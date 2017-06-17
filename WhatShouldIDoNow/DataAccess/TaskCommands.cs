@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -30,10 +31,14 @@ namespace WhatShouldIDoNow.DataAccess
             }
         }
 
-        public TaskToDo GetRandomTask()
+        public TaskToDo GetRandomTaskWithDateStart()
         {
+            //Get a random task that started in the past
             string sql;
-            sql = "SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],[DateStart],[TimesViewed],[IntervalByHour] FROM [WsidnData].[dbo].[TasksToDo] Order by NEWID()";
+            sql = @"SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],
+                    [DateStart],[TimesViewed],[IntervalByHour] FROM [WsidnData].[dbo].[TasksToDo]
+                    Where getdate() > [DateStart]
+                    Order by NEWID()";
             using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
             {
                 var task = conn.QuerySingleOrDefault<TaskToDo>(sql);
@@ -50,6 +55,16 @@ namespace WhatShouldIDoNow.DataAccess
             {
                 var task = conn.QuerySingleOrDefault<TaskToDo>(sql, new { Id = id });
                 return task;
+            }
+        }
+
+        public void UpdateTaskDateStart(int id, DateTime dateStart)
+        {
+            string sql;
+            sql = "UPDATE[WsidnData].[dbo].[TasksToDo] Set DateStart = @dateStart Where ID = @id";
+            using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
+            {
+                conn.Execute(sql, new { id, dateStart });
             }
         }
 
