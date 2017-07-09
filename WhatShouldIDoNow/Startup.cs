@@ -23,7 +23,7 @@ namespace WhatShouldIDoNow
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfigurationRoot Configuration { get; } 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,7 +32,7 @@ namespace WhatShouldIDoNow
             string connectionString = @"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true";
             if (devEnv != "Development")
             {
-                connectionString = @"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true";
+                connectionString = @"Server=tcp:wsidn.database.windows.net,1433;Initial Catalog=WSIDN;Persist Security Info=False;User ID=wsidnapp;Password=Thankyoujon7;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             }
             // data access stuff
             services.AddSingleton<IDbConnectionProvider>(

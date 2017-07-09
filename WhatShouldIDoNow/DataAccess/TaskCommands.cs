@@ -36,7 +36,7 @@ namespace WhatShouldIDoNow.DataAccess
             //Get a random task that started in the past
             string sql;
             sql = @"SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],
-                    [DateStart],[TimesViewed],[IntervalByHour] FROM [WsidnData].[dbo].[TasksToDo]
+                    [DateStart],[TimesViewed],[IntervalByHour] FROM [dbo].[TasksToDo]
                     Where getdate() > [DateStart]
                     Order by NEWID()";
             using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
@@ -50,7 +50,7 @@ namespace WhatShouldIDoNow.DataAccess
         public TaskToDo GetTask(int id)
         {
             string sql;
-            sql = "SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],[DateStart],[TimesViewed],[IntervalByHour] FROM [WsidnData].[dbo].[TasksToDo] where Id = @Id";
+            sql = "SELECT TOP 1 [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],[DateStart],[TimesViewed],[IntervalByHour] FROM [dbo].[TasksToDo] where Id = @Id";
             using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
             {
                 var task = conn.QuerySingleOrDefault<TaskToDo>(sql, new { Id = id });
@@ -61,7 +61,7 @@ namespace WhatShouldIDoNow.DataAccess
         public void UpdateTaskDateStart(int id, DateTime dateStart)
         {
             string sql;
-            sql = "UPDATE[WsidnData].[dbo].[TasksToDo] Set DateStart = @dateStart Where ID = @id";
+            sql = "UPDATE[dbo].[TasksToDo] Set DateStart = @dateStart Where ID = @id";
             using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
             {
                 conn.Execute(sql, new { id, dateStart });
@@ -91,7 +91,7 @@ namespace WhatShouldIDoNow.DataAccess
 
         public List<CompletedTask> GetCompletedTasks()
         {
-            var sql = "SELECT [Id],[DateCreated],Description,[Category],[DateCompleted] FROM [WsidnData].[dbo].[TasksCompleted]";
+            var sql = "SELECT [Id],[DateCreated],Description,[Category],[DateCompleted] FROM [dbo].[TasksCompleted]";
             using (var conn = _dbConnectionProvider.GetOpenWsidnConnection())
             {
                 var results = conn.Query<CompletedTask>(sql);
