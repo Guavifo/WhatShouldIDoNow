@@ -28,9 +28,15 @@ namespace WhatShouldIDoNow
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string devEnv = Configuration["ASPNETCORE_ENVIRONMENT"];
+            string connectionString = @"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true";
+            if (devEnv != "Development")
+            {
+                connectionString = @"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true";
+            }
             // data access stuff
             services.AddSingleton<IDbConnectionProvider>(
-                new DbConnectionProvider(@"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                new DbConnectionProvider(connectionString));
             services.AddTransient<ITaskCommands, TaskCommands>();
 
             // Add framework services.
@@ -42,6 +48,7 @@ namespace WhatShouldIDoNow
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
 
             if (env.IsDevelopment())
             {
