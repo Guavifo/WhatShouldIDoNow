@@ -17,9 +17,12 @@ namespace WhatShouldIDoNow
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            if (env.IsDevelopment())
+                { builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); }
+            else
+                { builder.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true); }
+            
             Configuration = builder.Build();
         }
 
@@ -29,11 +32,8 @@ namespace WhatShouldIDoNow
         public void ConfigureServices(IServiceCollection services)
         {
             string devEnv = Configuration["ASPNETCORE_ENVIRONMENT"];
-            string connectionString = @"Server=localhost\SQLEXPRESS;Database=WsidnData;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true";
-            if (devEnv != "Development")
-            {
-                connectionString = @"Server=tcp:wsidn.database.windows.net,1433;Initial Catalog=WSIDN;Persist Security Info=False;User ID=wsidnapp;Password=Thankyoujon7;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            }
+            string connectionString = Configuration.GetConnectionString("WSIDN");
+            
             // data access stuff
             services.AddSingleton<IDbConnectionProvider>(
                 new DbConnectionProvider(connectionString));

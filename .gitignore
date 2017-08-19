@@ -237,3 +237,6 @@ _Pvt_Extensions
 .fake/
 
 .DS_Store
+
+#No text files
+*.txt
