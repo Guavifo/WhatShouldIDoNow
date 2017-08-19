@@ -3,9 +3,13 @@ using System;
 using WhatShouldIDoNow.DataAccess;
 using WhatShouldIDoNow.DataAccess.Models;
 using WhatShouldIDoNow.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace WhatShouldIDoNow.Controllers
 {
+    [Authorize]
+
     public class TasksController : Controller
     {
         private readonly ITaskCommands _taskCommands;

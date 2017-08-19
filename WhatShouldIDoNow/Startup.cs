@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WhatShouldIDoNow.DataAccess;
+using WhatShouldIDoNow.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace WhatShouldIDoNow
 {
@@ -33,11 +35,15 @@ namespace WhatShouldIDoNow
         {
             string devEnv = Configuration["ASPNETCORE_ENVIRONMENT"];
             string connectionString = Configuration.GetConnectionString("WSIDN");
-            
+
             // data access stuff
-            services.AddSingleton<IDbConnectionProvider>(
-                new DbConnectionProvider(connectionString));
-            services.AddTransient<ITaskCommands, TaskCommands>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IDbConnectionProvider>(new DbConnectionProvider(connectionString));
+            services.AddScoped<ITaskCommands, TaskCommands>();
+            services.AddScoped<ISecurityService, SecurityService>();
+            services.AddScoped<IUserQueries, UserQueries>();
+
+            services.AddAuthentication();
 
             // Add framework services.
             services.AddMvc();
@@ -59,6 +65,13 @@ namespace WhatShouldIDoNow
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                LoginPath = "/User/SignIn",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
 
             app.UseStaticFiles();
 
