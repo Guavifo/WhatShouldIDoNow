@@ -4,7 +4,7 @@ using WhatShouldIDoNow.DataAccess;
 using WhatShouldIDoNow.DataAccess.Models;
 using WhatShouldIDoNow.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using WhatShouldIDoNow.Services;
 
 namespace WhatShouldIDoNow.Controllers
 {
@@ -12,12 +12,15 @@ namespace WhatShouldIDoNow.Controllers
 
     public class TasksController : Controller
     {
+        private int _userId;
         private readonly ITaskCommands _taskCommands;
         private const string _homeRedirectUrl = "~/Home/Index";
 
-        public TasksController(ITaskCommands taskCommands)
+        public TasksController(ITaskCommands taskCommands, ISecurityService securityService)
         {
             _taskCommands = taskCommands;
+            _userId = securityService.GetCurrentUserId();
+
         }
 
         public IActionResult Create()
@@ -43,7 +46,8 @@ namespace WhatShouldIDoNow.Controllers
                 new CreateTask
                 {
                     Description = model.Description,
-                    IntervalByHour = model.IntervalByHour
+                    IntervalByHour = model.IntervalByHour,
+                    UserId = _userId
                 });
 
             return new LocalRedirectResult(_homeRedirectUrl);
@@ -51,14 +55,14 @@ namespace WhatShouldIDoNow.Controllers
 
         public IActionResult Random()
         {
-            var task = _taskCommands.GetRandomTaskWithDateStart();
+            var task = _taskCommands.GetRandomTaskWithDateStart(_userId);  
             return View(task);
         }
 
         [HttpPost]
         public IActionResult Complete(int id)
         {
-            var taskToComplete = _taskCommands.GetTask(id);
+            var taskToComplete = _taskCommands.GetTask(id, _userId);
 
             if (taskToComplete == null)
             {
@@ -70,7 +74,8 @@ namespace WhatShouldIDoNow.Controllers
             {
                 Description = taskToComplete.Description,
                 DateCreated = taskToComplete.DateCreated,
-                Category = taskToComplete.Category
+                Category = taskToComplete.Category,
+                UserId = _userId
             };
 
             _taskCommands.AddCompletedTask(completedTask);
@@ -78,7 +83,7 @@ namespace WhatShouldIDoNow.Controllers
             //Check if the task is repeating, if not, delete it
             if (taskToComplete.IntervalByHour == 0)
             {
-                _taskCommands.DeleteTaskTodo(id);
+                _taskCommands.DeleteTaskTodo(id, _userId);
             }
             //if the task IS repeating, update the DateStart field to the future (vs. right now)
             else
@@ -86,7 +91,8 @@ namespace WhatShouldIDoNow.Controllers
                 _taskCommands
                     .UpdateTaskDateStart(
                         id, 
-                        DateTime.Now.AddHours(taskToComplete.IntervalByHour)
+                        DateTime.Now.AddHours(taskToComplete.IntervalByHour),
+                        _userId
                     );
             }
 
@@ -95,7 +101,7 @@ namespace WhatShouldIDoNow.Controllers
         
         public IActionResult CompletedList()
         {
-            var model = _taskCommands.GetCompletedTasks();
+            var model = _taskCommands.GetCompletedTasks(_userId);
             return View(model);
         }
     }
