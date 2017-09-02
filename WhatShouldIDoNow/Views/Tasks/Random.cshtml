@@ -37,5 +37,8 @@ else
         </button>
         <input id="SnoozeSpecifyId" type="hidden" asp-for="Id" />
     </form>
+    <br />
+    <br />
+    @Html.ActionLink("Delete this task","Delete","Tasks",new { @id = Model.Id }, new { @class = "btn btn-danger" })
 
 }

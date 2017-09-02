@@ -99,7 +99,7 @@ namespace WhatShouldIDoNow.Controllers
             return new LocalRedirectResult(_homeRedirectUrl);
         }
         
-        //This code snoozes a task for 5 minutes
+        //This code snoozes a task for 15 minutes
 
         [HttpPost]
         public IActionResult Snooze(int id, int snoozeTime)
@@ -124,7 +124,23 @@ namespace WhatShouldIDoNow.Controllers
 
             return new LocalRedirectResult(_homeRedirectUrl);
         }
-        
+
+        //This deletes a task
+        public IActionResult Delete(int id)
+        {
+            var taskToDelete = _taskCommands.GetTask(id, _userId);
+
+            if (taskToDelete == null)
+            {
+                return new NotFoundResult();
+            }
+                        
+            //Delete the task by ID
+            _taskCommands.DeleteTaskTodo(id, _userId);
+            
+            return new LocalRedirectResult(_homeRedirectUrl);
+        }
+                
         //This displayes the completed list of tasks
 
         public IActionResult CompletedList()
