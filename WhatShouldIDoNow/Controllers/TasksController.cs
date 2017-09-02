@@ -98,7 +98,41 @@ namespace WhatShouldIDoNow.Controllers
 
             return new LocalRedirectResult(_homeRedirectUrl);
         }
-        
+
+
+        //This code snoozes a task for 5 minutes
+
+        [HttpPost]
+        public IActionResult Snooze(int id)
+        {
+            var taskToSnooze = _taskCommands.GetTask(id, _userId);
+
+            if (taskToSnooze == null)
+            {
+                return new NotFoundResult();
+            }
+
+            //Update the DateStart field to the future (vs. right now)
+            else
+            {
+                _taskCommands
+                    .UpdateTaskDateStart(
+                        id,
+                        DateTime.Now.AddMinutes(5),
+                        _userId
+                    );
+            }
+
+            return new LocalRedirectResult(_homeRedirectUrl);
+        }
+
+
+
+
+
+
+        //This displayes the completed list of tasks
+
         public IActionResult CompletedList()
         {
             var model = _taskCommands.GetCompletedTasks(_userId);

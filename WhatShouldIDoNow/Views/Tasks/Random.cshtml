@@ -4,7 +4,7 @@
     ViewData["Title"] = "RandomTask";
 }
 
-<h2>RandomTask</h2>
+<h2>Pick a Random Task</h2>
 @if (Model == null)
 {
     <p>Today is a happy day!<br>Everything is Complete</p>
@@ -18,7 +18,14 @@ else
         <button type="submit">
             This is now complete
         </button>
-        <input type="hidden" asp-for="Id"/>
+        <input id="CompleteId" type="hidden" asp-for="Id"/>
+    </form>
+    <br></br>
+    <form asp-controller="Tasks" asp-action="Snooze" method="post">
+        <button type="submit">
+            Snooze for 5 minutes
+        </button>
+        <input id="SnoozeId" type="hidden" asp-for="Id" />
     </form>
 
 }
