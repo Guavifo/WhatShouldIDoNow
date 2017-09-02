@@ -98,8 +98,7 @@ namespace WhatShouldIDoNow.Controllers
 
             return new LocalRedirectResult(_homeRedirectUrl);
         }
-
-
+        
         //This code snoozes a task for 5 minutes
 
         [HttpPost]
@@ -125,12 +124,7 @@ namespace WhatShouldIDoNow.Controllers
 
             return new LocalRedirectResult(_homeRedirectUrl);
         }
-
-
-
-
-
-
+        
         //This displayes the completed list of tasks
 
         public IActionResult CompletedList()

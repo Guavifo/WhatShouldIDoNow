@@ -40,3 +40,9 @@ table {
         display: none;
     }
 }
+
+.task-description {
+    /* font-weight: bolder; */
+    padding-top: 25px;
+    padding-bottom: 40px;
+}

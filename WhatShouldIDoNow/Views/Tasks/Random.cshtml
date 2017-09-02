@@ -4,16 +4,17 @@
     ViewData["Title"] = "RandomTask";
 }
 
-<h2>Pick a Random Task</h2>
+<h4>Random Task:</h4>
+
 @if (Model == null)
 {
     <p>Today is a happy day!<br>Everything is Complete</p>
 }
 else
 {
-    <p>@Model.Description</p>
-    <br>
-    <br>
+    <h3 class="task-description">
+        @Model.Description
+    </h3>
     <form asp-controller="Tasks" asp-action="Complete" method="post">
         <button type="submit">
             This is now complete

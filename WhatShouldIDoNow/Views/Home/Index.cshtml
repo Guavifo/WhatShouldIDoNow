@@ -2,4 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-INDEX
+<br />
+<br />
+@Html.ActionLink("Create Task", "Create", "Tasks", null, new { @class = "btn btn-default home-link-button" })
+
+<br />
+<br />
+@Html.ActionLink("Pick a Random Task", "Random", "Tasks", null, new { @class = "btn btn-default home-link-button" })
+
+<br />
+<br />
+@Html.ActionLink("View Completed Tasks", "CompletedList", "Tasks", null, new { @class = "btn btn-default home-link-button" })
+
+<br />
+<br />
+@Html.ActionLink("Sign Out", "SignOut", "User", null, new { @class = "btn btn-default home-link-button" })
