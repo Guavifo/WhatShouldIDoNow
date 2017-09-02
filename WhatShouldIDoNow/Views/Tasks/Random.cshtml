@@ -22,10 +22,19 @@ else
     </form>
     <br></br>
     <form asp-controller="Tasks" asp-action="Snooze" method="post">
-        <button type="submit">
-            Snooze for 5 minutes
+        <button id="Snooze15min" type="submit">
+            Snooze for 15 minutes
         </button>
-        <input id="SnoozeId" type="hidden" asp-for="Id" />
+        <input id="Snooze15Id" type="hidden" asp-for="Id" />
+        <input id="SnoozeTime15" name="SnoozeTime" type="hidden" value="15"/>
+    </form>
+    <br></br>
+    <form asp-controller="Tasks" asp-action="Snooze" method="post">
+        Snooze for: <input id="SnoozeSpecifyMins" type="number" name="SnoozeTime" value="60" /> mins. 
+        <button id="SnoozeSpecifyMin" type="submit">
+            Snooze!
+        </button>
+        <input id="SnoozeSpecifyId" type="hidden" asp-for="Id" />
     </form>
 
 }

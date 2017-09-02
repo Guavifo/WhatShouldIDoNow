@@ -103,7 +103,7 @@ namespace WhatShouldIDoNow.Controllers
         //This code snoozes a task for 5 minutes
 
         [HttpPost]
-        public IActionResult Snooze(int id)
+        public IActionResult Snooze(int id, int snoozeTime)
         {
             var taskToSnooze = _taskCommands.GetTask(id, _userId);
 
@@ -118,7 +118,7 @@ namespace WhatShouldIDoNow.Controllers
                 _taskCommands
                     .UpdateTaskDateStart(
                         id,
-                        DateTime.Now.AddMinutes(5),
+                        DateTime.Now.AddMinutes(snoozeTime),
                         _userId
                     );
             }
