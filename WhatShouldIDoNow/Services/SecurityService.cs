@@ -47,9 +47,9 @@ namespace WhatShouldIDoNow.Services
                 return false;
             }
 
-            var retrievedPassword = _userQueries.GetPasswordHashByUserName(userName);
+            var hash = _userQueries.GetPasswordHashByUserName(userName);
 
-            return password == retrievedPassword;
+            return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
         public int GetCurrentUserId()
