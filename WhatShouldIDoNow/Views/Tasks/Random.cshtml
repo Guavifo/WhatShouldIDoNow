@@ -37,6 +37,14 @@ else
         </button>
         <input id="SnoozeSpecifyId" type="hidden" asp-for="Id" />
     </form>
+    <br></br>
+    <form asp-controller="Tasks" asp-action="Snooze" method="post">
+        <button id="SnoozeMonth" type="submit">
+            Snooze for a month
+        </button>
+        <input id="SnoozeMonthId" type="hidden" asp-for="Id" />
+        <input id="SnoozeTimeMonth" name="SnoozeTime" type="hidden" value="39000" />
+    </form>
     <br />
     <br />
     @Html.ActionLink("Delete this task","Delete","Tasks",new { @id = Model.Id }, new { @class = "btn btn-danger" })
