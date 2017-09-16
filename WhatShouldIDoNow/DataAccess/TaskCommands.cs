@@ -47,6 +47,22 @@ namespace WhatShouldIDoNow.DataAccess
             }
         }
 
+        public List<AllActiveTask> GetAllActiveTask(int userId)
+        {
+            //View all active current and future tasks
+            string sql;
+            sql = @"SELECT [Id],[DateCreated],[Description],[Category],[DateDue],[LastViewed],
+                    [DateStart],[TimesViewed],[IntervalByHour] FROM [dbo].[TasksToDo]
+                    Where getdate() > [DateStart] and UserID = @userId
+                    Order by [DateStart]";
+            using (IDbConnection conn = _dbConnectionProvider.GetOpenWsidnConnection())
+            {
+                var results = conn.Query<AllActiveTask>(sql, new { userId = userId });
+                return results.ToList();
+
+            }
+        }
+
         public TaskToDo GetTask(int id, int userId)
         {
             string sql;

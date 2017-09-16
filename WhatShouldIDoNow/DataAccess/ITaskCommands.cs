@@ -13,5 +13,6 @@ namespace WhatShouldIDoNow.DataAccess
         void UpdateTaskDateStart(int id, DateTime dateStart, int userId);
         void DeleteTaskTodo(int id, int userId);
         List<CompletedTask> GetCompletedTasks(int userId);
+        List<AllActiveTask> GetAllActiveTask(int userId);
     }
 }
