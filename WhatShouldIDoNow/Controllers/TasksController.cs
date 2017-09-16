@@ -148,5 +148,11 @@ namespace WhatShouldIDoNow.Controllers
             var model = _taskCommands.GetCompletedTasks(_userId);
             return View(model);
         }
+
+        public IActionResult AllActiveTask()
+        {
+            var model = _taskCommands.GetAllActiveTask(_userId);
+            return View(model);
+        }
     }
 }
