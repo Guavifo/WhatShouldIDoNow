@@ -4,13 +4,21 @@
     ViewData["Title"] = "Active Task List";
 }
 
-<h2>Active List</h2>
+<h2>Active Task List</h2>
 
-<table align="left" style="padding: 20px">
-    <tr><th>Description</th><th>Category</th><th>Created Date</th><th>Start Date</th></tr>
-    @foreach(var task in Model)
-    {
-        var category = task.Category==null ? "Not categorized" : task.Category.ToString();
-        <tr><td>@task.Description</td><td>@category</td><td>@task.DateCreated</td><td>@task.DateStart</td></tr>
-    }
-</table>
+@if (Model == null)
+{
+    <p>Woohoo!<br>You can relax for a while.</p>
+}
+else
+{
+
+    <table align="left" style="padding: 20px">
+        <tr><th>Description</th><th>Category</th><th>Created Date</th><th>Start Date</th></tr>
+    @foreach (var task in Model)
+        {
+            var category = task.Category == null ? "Not categorized" : task.Category.ToString();
+            <tr><td>@task.Description</td><td>@category</td><td>@task.DateCreated</td><td>@task.DateStart</td></tr>
+        }
+    </table>
+}
