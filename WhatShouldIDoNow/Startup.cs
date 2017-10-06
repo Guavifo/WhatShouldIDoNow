@@ -43,6 +43,8 @@ namespace WhatShouldIDoNow
             services.AddScoped<ITaskCommands, TaskCommands>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IUserQueries, UserQueries>();
+            services.AddScoped<IUserSignUpService, UserSignUpService>();
+            services.AddScoped<IUserCommands, UserCommands>();
 
             services.AddAuthentication();
 

@@ -2,13 +2,22 @@
 
 namespace WhatShouldIDoNow.Services
 {
-    public class UserSignUpService
+    public class UserSignUpService : IUserSignUpService
     {
         private readonly IUserQueries _userQueries;
+        private readonly IUserCommands _userCommands;
 
-        public UserSignUpService(IUserQueries userQueries)
+        public UserSignUpService(IUserQueries userQueries, IUserCommands userCommands)
         {
             _userQueries = userQueries;
+            _userCommands = userCommands;
+        }
+
+        public int SignUpUser(string email, string username, string password)
+        {
+            var hash = BCrypt.Net.BCrypt.HashPassword(password);
+            var id = _userCommands.CreateUser(email, username, hash);
+            return id;
         }
 
         public bool IsUsernameAvailable(string username)

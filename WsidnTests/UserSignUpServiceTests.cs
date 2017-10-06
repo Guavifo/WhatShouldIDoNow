@@ -9,6 +9,7 @@ namespace WsidnTests
     public class UserSignUpServiceTests
     {
         private Mock<IUserQueries> _userQueriesMock;
+        private Mock<IUserCommands> _userCommandsMock;
         private UserSignUpService _service;
 
         [TestInitialize]
@@ -16,7 +17,9 @@ namespace WsidnTests
         {
             _userQueriesMock = new Mock<IUserQueries>();
 
-            _service = new UserSignUpService(_userQueriesMock.Object);
+            _userCommandsMock = new Mock<IUserCommands>();
+
+            _service = new UserSignUpService(_userQueriesMock.Object, _userCommandsMock.Object);
         }
 
         [TestMethod]

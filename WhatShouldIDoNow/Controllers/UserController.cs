@@ -12,11 +12,16 @@ namespace WhatShouldIDoNow.Controllers
     {
         private readonly ISecurityService _securityService;
         private readonly IUserQueries _userQueries;
+        private readonly IUserSignUpService _userSignUpService;
 
-        public UserController(ISecurityService securityService, IUserQueries userQueries)
+        public UserController(
+            ISecurityService securityService, 
+            IUserQueries userQueries,
+            IUserSignUpService userSignUpService)
         {
             _securityService = securityService;
             _userQueries = userQueries;
+            _userSignUpService = userSignUpService;
         }
 
         public IActionResult SignIn()
@@ -59,8 +64,29 @@ namespace WhatShouldIDoNow.Controllers
         [ValidateRecaptcha]
         public ActionResult SignUp(SignUpViewModel viewModel)
         {
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
 
+            if (!_userSignUpService.IsEmailAvailable(viewModel.Email))
+            {
+                ModelState.AddModelError("Email", "That email is not available.");
+            }
+
+            if (!_userSignUpService.IsUsernameAvailable(viewModel.Username))
+            {
+                ModelState.AddModelError("Username", "That username is not available.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            _userSignUpService.SignUpUser(viewModel.Email, viewModel.Username, viewModel.Password);
+
+            return RedirectToAction("SignIn");
+        }
     }
 }
