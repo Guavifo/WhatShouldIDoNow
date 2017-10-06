@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using System.Threading.Tasks;
 using WhatShouldIDoNow.DataAccess;
 using WhatShouldIDoNow.Models;
@@ -48,5 +49,18 @@ namespace WhatShouldIDoNow.Controllers
             await _securityService.SignOut();
             return Redirect("/");
         }
+
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateRecaptcha]
+        public ActionResult SignUp(SignUpViewModel viewModel)
+        {
+            return View();
+        }
+
     }
 }

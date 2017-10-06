@@ -7,5 +7,7 @@ namespace WhatShouldIDoNow.DataAccess
         User GetUserByUserName(string userName);
         string GetPasswordHashByUserName(string userName);
         User GetUserById(int id);
+        bool GetWhetherUsernameExists(string username);
+        bool GetWhetherEmailExists(string email);
     }
 }
