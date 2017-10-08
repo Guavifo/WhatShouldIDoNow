@@ -1,4 +1,6 @@
-﻿namespace WhatShouldIDoNow.Services
+﻿using System.Text.RegularExpressions;
+
+namespace WhatShouldIDoNow.Services
 {
     public class HashingWrapper : IHashingWrapper
     {
@@ -10,6 +12,14 @@
         public bool Verify(string password, string hash)
         {
             return BCrypt.Net.BCrypt.Verify(password, hash);
+        }
+
+        public bool IsBcryptHash(string possibleHash)
+        {
+            const string pattern = @"^\$2[ayb]\$.{56}$";
+            var result = Regex.IsMatch(possibleHash, pattern);
+
+            return result;
         }
     }
 }

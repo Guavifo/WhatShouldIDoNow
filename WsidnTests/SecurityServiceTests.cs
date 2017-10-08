@@ -29,6 +29,9 @@ namespace WsidnTests
             _hashingWrapperMock
                 .Setup(x => x.Verify("password", "hash"))
                 .Returns(true);
+            _hashingWrapperMock
+                .Setup(x => x.IsBcryptHash("hash"))
+                .Returns(true);
 
             _securityService = new SecurityService(
                 _httpContext.Object, 
@@ -51,7 +54,7 @@ namespace WsidnTests
         }
 
         [TestMethod]
-        public void PasswordDoesNotMatchHash()
+        public void WrongPasswordDoesNotMatchHash()
         {
             // arrange
             var password = "wrongpassword";
@@ -61,6 +64,39 @@ namespace WsidnTests
             var result = _securityService.VerifyUserPassword(username, password);
 
             // assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void LegacyUserWithPlainTextPasswordCanStillLogin()
+        {
+            // arrange
+            var plainPassword = "plaintext";
+            var username = "legacyusername";
+            _userQueryMock
+                .Setup(x => x.GetPasswordHashByUserName(username))
+                .Returns(plainPassword);
+
+            // act
+            var result = _securityService.VerifyUserPassword(username, plainPassword);
+
+            // assert
+            _hashingWrapperMock.Verify(x => x.Verify(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void HashDoesNotMatchWithHash()
+        {
+            // arrange
+            var hash = "hash";
+            var username = "username";
+
+            // act
+            var result = _securityService.VerifyUserPassword(username, hash);
+
+            // assert
+            _hashingWrapperMock.Verify(x => x.Verify("hash", "hash"), Times.Once);
             Assert.IsFalse(result);
         }
     }

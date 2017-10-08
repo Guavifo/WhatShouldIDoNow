@@ -55,6 +55,12 @@ namespace WhatShouldIDoNow.Services
 
             var hash = _userQueries.GetPasswordHashByUserName(userName);
 
+            var isHashed = _hashingWrapper.IsBcryptHash(hash);
+            if (!isHashed)
+            {
+                return password == hash;
+            }
+
             return _hashingWrapper.Verify(password, hash);
         }
 
