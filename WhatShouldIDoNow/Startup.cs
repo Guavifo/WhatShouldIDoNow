@@ -40,6 +40,7 @@ namespace WhatShouldIDoNow
             // data access stuff
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IDbConnectionProvider>(new DbConnectionProvider(connectionString));
+            services.AddSingleton<IHashingWrapper, HashingWrapper>();
             services.AddScoped<ITaskCommands, TaskCommands>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IUserQueries, UserQueries>();

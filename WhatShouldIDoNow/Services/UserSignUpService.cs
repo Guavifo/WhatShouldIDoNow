@@ -6,16 +6,21 @@ namespace WhatShouldIDoNow.Services
     {
         private readonly IUserQueries _userQueries;
         private readonly IUserCommands _userCommands;
+        private readonly IHashingWrapper _hashingWrapper;
 
-        public UserSignUpService(IUserQueries userQueries, IUserCommands userCommands)
+        public UserSignUpService(
+            IUserQueries userQueries, 
+            IUserCommands userCommands,
+            IHashingWrapper hashingWrapper)
         {
             _userQueries = userQueries;
             _userCommands = userCommands;
+            _hashingWrapper = hashingWrapper;
         }
 
         public int SignUpUser(string email, string username, string password)
         {
-            var hash = BCrypt.Net.BCrypt.HashPassword(password);
+            var hash = _hashingWrapper.HashPassword(password);
             var id = _userCommands.CreateUser(email, username, hash);
             return id;
         }

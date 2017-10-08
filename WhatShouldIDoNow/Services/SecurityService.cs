@@ -10,14 +10,20 @@ namespace WhatShouldIDoNow.Services
 {
     public class SecurityService : ISecurityService
     {
-        private HttpContext _httpContext;
-        private IUserQueries _userQueries;
+        private readonly HttpContext _httpContext;
+        private readonly IUserQueries _userQueries;
+        private readonly IHashingWrapper _hashingWrapper;
+
         private const string CLAIM_TYPE_ID = "id";
 
-        public SecurityService(IHttpContextAccessor httpContextAccessor, IUserQueries userQueries)
+        public SecurityService(
+            IHttpContextAccessor httpContextAccessor, 
+            IUserQueries userQueries,
+            IHashingWrapper hashingWrapper)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _userQueries = userQueries;
+            _hashingWrapper = hashingWrapper;
         }
 
         public async Task SignIn(int userId)
@@ -49,7 +55,7 @@ namespace WhatShouldIDoNow.Services
 
             var hash = _userQueries.GetPasswordHashByUserName(userName);
 
-            return BCrypt.Net.BCrypt.Verify(password, hash);
+            return _hashingWrapper.Verify(password, hash);
         }
 
         public int GetCurrentUserId()

@@ -10,6 +10,7 @@ namespace WsidnTests
     {
         private Mock<IUserQueries> _userQueriesMock;
         private Mock<IUserCommands> _userCommandsMock;
+        public Mock<IHashingWrapper> _hashingWrapperMock;
         private UserSignUpService _service;
 
         [TestInitialize]
@@ -19,7 +20,12 @@ namespace WsidnTests
 
             _userCommandsMock = new Mock<IUserCommands>();
 
-            _service = new UserSignUpService(_userQueriesMock.Object, _userCommandsMock.Object);
+            _hashingWrapperMock = new Mock<IHashingWrapper>();
+
+            _service = new UserSignUpService(
+                _userQueriesMock.Object, 
+                _userCommandsMock.Object,
+                _hashingWrapperMock.Object);
         }
 
         [TestMethod]

@@ -12,6 +12,7 @@ namespace WsidnTests
         private Mock<IHttpContextAccessor> _httpContext;
         private SecurityService _securityService;
         private Mock<IUserQueries> _userQueryMock;
+        private Mock<IHashingWrapper> _hashingWrapperMock;
  
         [TestInitialize]
         public void Intialize()
@@ -22,9 +23,17 @@ namespace WsidnTests
             _userQueryMock = new Mock<IUserQueries>();
             _userQueryMock
                 .Setup(x => x.GetPasswordHashByUserName("username"))
-                .Returns("$2a$06$fI/3zuLAmqdzUQ7IpxocOeZMFMimLZitlCwZKXdsm7srSA2biAebi");
+                .Returns("hash");
 
-            _securityService = new SecurityService(_httpContext.Object, _userQueryMock.Object);
+            _hashingWrapperMock = new Mock<IHashingWrapper>();
+            _hashingWrapperMock
+                .Setup(x => x.Verify("password", "hash"))
+                .Returns(true);
+
+            _securityService = new SecurityService(
+                _httpContext.Object, 
+                _userQueryMock.Object,
+                _hashingWrapperMock.Object);
         }
 
         [TestMethod]
