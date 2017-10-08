@@ -19,8 +19,17 @@ namespace WsidnTests
             _userQueriesMock = new Mock<IUserQueries>();
 
             _userCommandsMock = new Mock<IUserCommands>();
+            _userCommandsMock
+                .Setup(x => x.CreateUser(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()))
+                .Returns(1);
 
             _hashingWrapperMock = new Mock<IHashingWrapper>();
+            _hashingWrapperMock
+                .Setup(x => x.HashPassword(It.IsAny<string>()))
+                .Returns("hash");
 
             _service = new UserSignUpService(
                 _userQueriesMock.Object, 
@@ -86,6 +95,19 @@ namespace WsidnTests
 
             // assert
             Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void SignUpUserWithHashedPassword()
+        {
+            // arrange
+            // act
+            var result = _service.SignUpUser("email", "username", "passord");
+
+            // assert
+            _userCommandsMock
+                .Verify(x => x.CreateUser("email", "username", "hash"), Times.Once);
+            Assert.AreEqual(1, result);
         }
     }
 }
