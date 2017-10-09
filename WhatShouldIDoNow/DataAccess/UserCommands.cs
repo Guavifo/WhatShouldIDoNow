@@ -25,5 +25,18 @@ namespace WhatShouldIDoNow.DataAccess
                 return id;
             }
         }
+
+        public void UpdatePasswordHashByUsername(string username, string hash)
+        {
+            var sql = @"
+                update Users
+                set PasswordHash = @hash
+                where UserName = @username";
+
+            using (var conn = _connectionProvider.GetOpenWsidnConnection())
+            {
+                conn.Execute(sql, new { username, hash });
+            }
+        }
     }
 }

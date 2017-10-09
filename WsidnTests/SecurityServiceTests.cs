@@ -13,13 +13,13 @@ namespace WsidnTests
         private SecurityService _securityService;
         private Mock<IUserQueries> _userQueryMock;
         private Mock<IHashingWrapper> _hashingWrapperMock;
+        private Mock<IUserCommands> _userCommandsMock;
  
         [TestInitialize]
         public void Intialize()
         {
             _httpContext = new Mock<IHttpContextAccessor>();
-
-            // used http://bcrypthashgenerator.apphb.com/?PlainText=password to get hash
+            
             _userQueryMock = new Mock<IUserQueries>();
             _userQueryMock
                 .Setup(x => x.GetPasswordHashByUserName("username"))
@@ -33,10 +33,13 @@ namespace WsidnTests
                 .Setup(x => x.IsBcryptHash("hash"))
                 .Returns(true);
 
+            _userCommandsMock = new Mock<IUserCommands>();
+
             _securityService = new SecurityService(
                 _httpContext.Object, 
                 _userQueryMock.Object,
-                _hashingWrapperMock.Object);
+                _hashingWrapperMock.Object,
+                _userCommandsMock.Object);
         }
 
         [TestMethod]
@@ -50,7 +53,7 @@ namespace WsidnTests
             var result = _securityService.VerifyUserPassword(username, password);
 
             // assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.IsPasswordMatch);
         }
 
         [TestMethod]
@@ -64,7 +67,7 @@ namespace WsidnTests
             var result = _securityService.VerifyUserPassword(username, password);
 
             // assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.IsPasswordMatch);
         }
 
         [TestMethod]
@@ -82,7 +85,8 @@ namespace WsidnTests
 
             // assert
             _hashingWrapperMock.Verify(x => x.Verify(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.IsPasswordMatch);
+            Assert.IsFalse(result.IsPasswordHashed);
         }
 
         [TestMethod]
@@ -97,7 +101,8 @@ namespace WsidnTests
 
             // assert
             _hashingWrapperMock.Verify(x => x.Verify("hash", "hash"), Times.Once);
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.IsPasswordMatch);
+            Assert.IsTrue(result.IsPasswordHashed);
         }
     }
 }

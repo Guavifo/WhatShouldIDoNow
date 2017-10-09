@@ -37,14 +37,20 @@ namespace WhatShouldIDoNow.Controllers
                 return View(model);
             }
 
-            if (_securityService.VerifyUserPassword(model.UserName, model.Password) != true)
+            var passwordStatus = _securityService.VerifyUserPassword(model.UserName, model.Password);
+            if (passwordStatus.IsPasswordMatch == false)
             {
                 ModelState.AddModelError("UserName", "These credentials aren't valid.");
                 return View(model);
             }
-
+            
             var user = _userQueries.GetUserByUserName(model.UserName);
             await _securityService.SignIn(user.Id);
+            
+            if (!passwordStatus.IsPasswordHashed)
+            {
+                _securityService.UpdateUserPassword(model.UserName, model.Password);
+            }
 
             return Redirect("/");
         }
