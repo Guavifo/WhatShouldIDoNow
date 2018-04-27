@@ -10,14 +10,23 @@ namespace WhatShouldIDoNow.Services
 {
     public class SecurityService : ISecurityService
     {
-        private HttpContext _httpContext;
-        private IUserQueries _userQueries;
+        private readonly HttpContext _httpContext;
+        private readonly IHashingWrapper _hashingWrapper;
+        private readonly IUserQueries _userQueries;
+        private readonly IUserCommands _userCommands;
+
         private const string CLAIM_TYPE_ID = "id";
 
-        public SecurityService(IHttpContextAccessor httpContextAccessor, IUserQueries userQueries)
+        public SecurityService(
+            IHttpContextAccessor httpContextAccessor, 
+            IUserQueries userQueries,
+            IHashingWrapper hashingWrapper,
+            IUserCommands userCommands)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _userQueries = userQueries;
+            _hashingWrapper = hashingWrapper;
+            _userCommands = userCommands;
         }
 
         public async Task SignIn(int userId)
@@ -40,16 +49,20 @@ namespace WhatShouldIDoNow.Services
                 .SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public bool VerifyUserPassword(string userName, string password)
+        public PasswordStatus VerifyUserPassword(string userName, string password)
         {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            var hash = _userQueries.GetPasswordHashByUserName(userName);
+
+            var passwordStatus = new PasswordStatus();
+            passwordStatus.IsPasswordHashed = _hashingWrapper.IsBcryptHash(hash);
+            if (!passwordStatus.IsPasswordHashed)
             {
-                return false;
+                passwordStatus.IsPasswordMatch = password == hash;
+                return passwordStatus;
             }
 
-            var retrievedPassword = _userQueries.GetPasswordHashByUserName(userName);
-
-            return password == retrievedPassword;
+            passwordStatus.IsPasswordMatch = _hashingWrapper.Verify(password, hash);
+            return passwordStatus;
         }
 
         public int GetCurrentUserId()
@@ -82,6 +95,12 @@ namespace WhatShouldIDoNow.Services
             };
 
             return signedInUser;
+        }
+
+        public void UpdateUserPassword(string username, string newPassword)
+        {
+            var hash = _hashingWrapper.HashPassword(newPassword);
+            _userCommands.UpdatePasswordHashByUsername(username, hash);
         }
     }
 }

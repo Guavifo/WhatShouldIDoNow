@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using WhatShouldIDoNow.DataAccess;
 using WhatShouldIDoNow.Services;
 using Microsoft.AspNetCore.Http;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace WhatShouldIDoNow
 {
@@ -39,14 +40,22 @@ namespace WhatShouldIDoNow
             // data access stuff
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IDbConnectionProvider>(new DbConnectionProvider(connectionString));
+            services.AddSingleton<IHashingWrapper, HashingWrapper>();
             services.AddScoped<ITaskCommands, TaskCommands>();
             services.AddScoped<ISecurityService, SecurityService>();
             services.AddScoped<IUserQueries, UserQueries>();
+            services.AddScoped<IUserSignUpService, UserSignUpService>();
+            services.AddScoped<IUserCommands, UserCommands>();
 
             services.AddAuthentication();
 
             // Add framework services.
             services.AddMvc();
+            services.AddRecaptcha(new RecaptchaOptions
+            {
+                SiteKey = Configuration["Recaptcha:SiteKey"],
+                SecretKey = Configuration["Recaptcha:SecretKey"]
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

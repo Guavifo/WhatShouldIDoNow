@@ -64,5 +64,39 @@ namespace WhatShouldIDoNow.DataAccess
                 return user.FirstOrDefault();
             }
         }
+
+        public bool GetWhetherUsernameExists(string username)
+        {
+            var query = @"
+            select
+                case when exists
+                (
+	                   select 1 from [WsidnData].[dbo].[Users] where UserName = @username
+                )
+                then 1
+                else 0
+            end";
+            using (var conn = _dbConnectionProvider.GetOpenWsidnConnection())
+            {
+                return conn.QueryFirst<bool>(query, new { username });
+            }
+        }
+
+        public bool GetWhetherEmailExists(string email)
+        {
+            var query = @"
+            select
+                case when exists
+                (
+	                   select 1 from [WsidnData].[dbo].[Users] where Email = @email
+                )
+                then 1
+                else 0
+            end";
+            using (var conn = _dbConnectionProvider.GetOpenWsidnConnection())
+            {
+                return conn.QueryFirst<bool>(query, new { email });
+            }
+        }
     }
 }
